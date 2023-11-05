@@ -2,44 +2,42 @@ import java.time.LocalDate;
 
 public class ContoCorrenteController {
 
-    private final double dailyLimit = 300;
-    private final double monthlyLimit = 4000;
+    private double dailyLimit;
+    private double monthlyLimit;
     private ContoCorrente cc;
     private LocalDate ld = LocalDate.now();
 
-    public ContoCorrenteController(ContoCorrente cc) {
+    public ContoCorrenteController(ContoCorrente cc, double dailyLimit, double monthlyLimit) {
         this.cc = cc;
+        this.dailyLimit = dailyLimit;
+        this.monthlyLimit = monthlyLimit;
     }
 
     public double getDailyLimit() {
-        return dailyLimit;
+        return this.dailyLimit;
+    }
+
+    public double getMonthlyLimit() {
+        return this.monthlyLimit;
     }
 
     public LocalDate getLd() {
-        return ld;
+        return this.ld;
+    }
+
+    public boolean checkPositive(double money) {
+       return money >= 0;
     }
 
     public boolean checkEnoughMoney(double money) {
-        if(money <= cc.getMoney()){
-            return true;
-        } else {
-            return false;
-        }
+        return checkPositive(money) && money <= this.cc.getMoney();
     }
 
     public boolean checkDaily(double money) {
-        if(money <= dailyLimit) {
-            return true;
-        } else {
-            return false;
-        }
+        return money <= this.getDailyLimit();
     }
 
     public boolean checkMonthly(double money) {
-        if(money <= monthlyLimit) {
-            return true;
-        } else {
-            return false;
-        }
+        return money <= this.monthlyLimit;
     }
 }

@@ -4,48 +4,64 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ContoCorrente contoCorrente = new ContoCorrente(50);
-        ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente);
+        ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente, 20, 1000);
 
         int i  = 0;
-        double dailyTakenMoney;
+        int scelta;
+        double dailyTakenMoney = 0;
         double monthlyTakenMoney = 0;
-        while (true) {
-            dailyTakenMoney = 0;
-            monthlyTakenMoney += dailyTakenMoney;
-
+        do {
             System.out.println(contoCorrenteController.getLd().plusDays(i));
             System.out.println("Denaro nel conto: " + contoCorrente.getMoney());
-            System.out.println("1. Preleva denaro");
+            System.out.println("Denaro gia' prelevato oggi(max " +
+                    contoCorrenteController.getDailyLimit() + "€)" + ": " + dailyTakenMoney);
+            System.out.println("Denaro gia' prelevato questo mese(max " +
+                    contoCorrenteController.getMonthlyLimit() + "€)" + ": " + monthlyTakenMoney);
+            System.out.println("\n1. Preleva denaro");
             System.out.println("2. Versa denaro");
             System.out.println("3. Termina giornata");
+            System.out.println("4. Esci");
             System.out.print("Inserisci la tua scelta: ");
 
-            int scelta = scanner.nextInt();
-            switch(scelta){
+            scelta = scanner.nextInt();
+            switch (scelta) {
                 case 1:
                     System.out.print("Inserisci il denaro da prelevare: ");
-                    double money = scanner.nextDouble();
-                    if(contoCorrenteController.checkEnoughMoney(money) == true && contoCorrenteController.checkDaily(dailyTakenMoney) == true) {
-                            contoCorrente.takeMoney(money);
-                    } else if(contoCorrenteController.checkEnoughMoney(money) == false) {
-                        System.out.println("Non è presente abbastanza denaro nel conto");
+                    double moneyToTake = scanner.nextDouble();
+                    if(contoCorrenteController.checkEnoughMoney(moneyToTake) && contoCorrenteController.checkDaily(dailyTakenMoney + moneyToTake)) {
+                        contoCorrente.takeMoney(moneyToTake);
+                        dailyTakenMoney += moneyToTake;
+                        monthlyTakenMoney += moneyToTake;
+                    } else if(!contoCorrenteController.checkEnoughMoney(moneyToTake)) {
+                        System.out.println("Impossibile prelevare");
                     } else {
-                        System.out.println("Impossibile prelevare, limite di " + contoCorrenteController.getDailyLimit()+ "€ superato\n\n");
+                        System.out.println("Impossibile prelevare, limite di " + contoCorrenteController.getDailyLimit() + "€ superato\n\n");
                     }
                     break;
+
                 case 2:
+                    System.out.print("Inserisci il denaro da versare: ");
+                    double money = scanner.nextDouble();
+                    if(contoCorrenteController.checkPositive(money)) {
+                        contoCorrente.addMoney(money);
+                    } else {
+                        System.out.println("Impossibile versare questa somma");
+                    }
                     break;
+
                 case 3:
-                    System.out.print("\033[H\033[2J");
-                    System.out.flush();
+                    dailyTakenMoney = 0;
                     i++;
                     break;
+
                 default:
                     break;
 
             }
 
-        }
+            System.out.println();
+
+        } while(scelta != 4);
 
     }
 }
