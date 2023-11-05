@@ -36,7 +36,7 @@ public class Main {
                     System.out.print("Inserisci il denaro da prelevare: ");
                     double moneyToTake = scanner.nextDouble();
                     if(contoCorrenteController.checkEnoughMoney(moneyToTake) &&
-                            contoCorrenteController.checkLimits(monthlyTakenMoney + moneyToTake,dailyTakenMoney + moneyToTake)) {
+                            contoCorrenteController.checkLimits(monthlyTakenMoney + moneyToTake, dailyTakenMoney + moneyToTake)) {
                         contoCorrente.takeMoney(moneyToTake);
                         dailyTakenMoney += moneyToTake;
                         monthlyTakenMoney += moneyToTake;
@@ -67,7 +67,10 @@ public class Main {
 
             }
 
-            System.out.println();
+            System.out.println("Press Any Key To Continue...");
+            new java.util.Scanner(System.in).nextLine();
+            System.out.print("\033[H\033[2J");  
+            System.out.flush();
 
         } while(scelta != 4);
 
