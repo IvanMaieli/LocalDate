@@ -3,14 +3,21 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ContoCorrente contoCorrente = new ContoCorrente(50);
-        ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente, 20, 1000);
+        ContoCorrente contoCorrente = new ContoCorrente(4000);
+        ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente, 5000, 600);
 
-        int i  = 0;
+        int i = 0, j = 0;
         int scelta;
         double dailyTakenMoney = 0;
         double monthlyTakenMoney = 0;
+
         do {
+            int month = contoCorrenteController.getLd().plusDays(j).getMonthValue();
+            if(month != contoCorrenteController.getLd().plusDays(i).getMonthValue()) {
+                monthlyTakenMoney = 0;
+            }
+            j = i;
+
             System.out.println(contoCorrenteController.getLd().plusDays(i));
             System.out.println("Denaro nel conto: " + contoCorrente.getMoney());
             System.out.println("Denaro gia' prelevato oggi(max " +
@@ -28,14 +35,15 @@ public class Main {
                 case 1:
                     System.out.print("Inserisci il denaro da prelevare: ");
                     double moneyToTake = scanner.nextDouble();
-                    if(contoCorrenteController.checkEnoughMoney(moneyToTake) && contoCorrenteController.checkDaily(dailyTakenMoney + moneyToTake)) {
+                    if(contoCorrenteController.checkEnoughMoney(moneyToTake) &&
+                            contoCorrenteController.checkLimits(monthlyTakenMoney + moneyToTake,dailyTakenMoney + moneyToTake)) {
                         contoCorrente.takeMoney(moneyToTake);
                         dailyTakenMoney += moneyToTake;
                         monthlyTakenMoney += moneyToTake;
                     } else if(!contoCorrenteController.checkEnoughMoney(moneyToTake)) {
-                        System.out.println("Impossibile prelevare");
+                        System.out.println("Impossibile prelevare, errore nell'inserimento della somma");
                     } else {
-                        System.out.println("Impossibile prelevare, limite di " + contoCorrenteController.getDailyLimit() + "€ superato\n\n");
+                        System.out.println("Impossibile prelevare, limiti superati");
                     }
                     break;
 
