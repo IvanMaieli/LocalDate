@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ContoCorrente contoCorrente = new ContoCorrente(50);
+        ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente);
+
+
     }
 }
