@@ -11,7 +11,7 @@ public class Main {
         ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente, 5000, 600);
         
         //ConsoleCleaner per gestire la visualizzazione nella console
-        ConsolCleaner cleaner = new ConsolCleaner();
+        ConsoleCleaner cleaner = new ConsoleCleaner();
 
         //Iteratore che gestisce l'incremento dei giorni, sfruttando la classe LocalDate
         int i = 0;

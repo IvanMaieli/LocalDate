@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class ConsolCleaner {
+public class ConsoleCleaner {
 
     //Input
     private String nextLine;
