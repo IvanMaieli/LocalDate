@@ -5,15 +5,17 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         ContoCorrente contoCorrente = new ContoCorrente(4000);
         ContoCorrenteController contoCorrenteController = new ContoCorrenteController(contoCorrente, 5000, 600);
+        ConsolCleaner cleaner = new ConsolCleaner();
 
-        int i = 0, j = 0;
+
+        int i = 0;
+        int j = 0;
         int scelta;
         double dailyTakenMoney = 0;
         double monthlyTakenMoney = 0;
 
         do {
-            int month = contoCorrenteController.getLd().plusDays(j).getMonthValue();
-            if(month != contoCorrenteController.getLd().plusDays(i).getMonthValue()) {
+            if(contoCorrenteController.checkChangingMonth(j, i)) {
                 monthlyTakenMoney = 0;
             }
             j = i;
@@ -67,11 +69,9 @@ public class Main {
 
             }
 
-            System.out.println("Press Any Key To Continue...");
-            new java.util.Scanner(System.in).nextLine();
-            System.out.print("\033[H\033[2J");  
-            System.out.flush();
-
+            cleaner.askForPause();
+            cleaner.cleanConsole();
+            
         } while(scelta != 4);
 
     }

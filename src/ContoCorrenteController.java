@@ -26,6 +26,12 @@ public class ContoCorrenteController {
         return this.ld;
     }
 
+    public boolean checkChangingMonth(int lastDay, int currentDay) {
+        int lastMonth = this.getLd().plusDays(lastDay).getMonthValue();
+        int currentMonth = this.getLd().plusDays(currentDay).getMonthValue();
+        return lastMonth != currentMonth;
+    }
+
     public boolean checkPositive(double money) {
        return money >= 0;
     }
