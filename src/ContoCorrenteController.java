@@ -19,6 +19,14 @@ public class ContoCorrenteController {
         return ld;
     }
 
+    public boolean checkEnoughMoney(double money) {
+        if(money <= cc.getMoney()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean checkDaily(double money) {
         if(money <= dailyLimit) {
             return true;
